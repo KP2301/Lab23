@@ -27,7 +27,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) 
 								WS_VISIBLE | WS_CHILD ,
 								20, 100, 50, 20, hwnd, (HMENU) 2, NULL, NULL
 								);
-								
+
 		TextBox = CreateWindow("EDIT", "", 
 									WS_CHILD | WS_VISIBLE | WS_BORDER,
 									20, 50, 200, 20,
@@ -45,14 +45,13 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) 
 
 				case 2:
 				int gwtstat = 0;
-				char *t = &textSaved[0];
-				gwtstat = GetWindowText(TextBox, t, 20);
-				
+				gwtstat = GetWindowText(TextBox, &textSaved[0], 20);
 				::MessageBox(hwnd,textSaved, textSaved, MB_OK);
 
 				break;
 
 			}
+		break;
 
 		/* Upon destruction, tell the main thread to stop */
 		case WM_DESTROY: {
