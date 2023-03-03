@@ -1,9 +1,59 @@
 #include <windows.h>
 
+HWND textfield, button1, button2;
+HWND TextBox;
+char textSaved[20];
+
 /* This is where all the input to the window goes to */
 LRESULT CALLBACK WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
 	switch(Message) {
-		
+		case WM_CREATE:
+
+
+		textfield = CreateWindow("STATIC",
+								"Please input two numbers",
+								WS_VISIBLE|WS_CHILD, 
+								20 ,10, 200, 20, hwnd, NULL, NULL, NULL);
+								// LEFT TOP SIZE(WIDE) HEIGHT(20 IS STANDARD) : PIXEL
+
+		button1 = CreateWindow("BUTTON", 
+							"Plus", WS_VISIBLE | WS_CHILD, 
+							20, 125, 50, 20,
+							hwnd, (HMENU) 1, NULL, NULL
+							);
+							
+		button2 = CreateWindow("BUTTON",
+								"Minus",
+								WS_VISIBLE | WS_CHILD ,
+								20, 100, 50, 20, hwnd, (HMENU) 2, NULL, NULL
+								);
+								
+		TextBox = CreateWindow("EDIT", "", 
+									WS_CHILD | WS_VISIBLE | WS_BORDER,
+									20, 50, 200, 20,
+									hwnd, NULL, NULL, NULL
+									);
+
+		break;
+
+		case WM_COMMAND:
+			switch(LOWORD(wParam))
+			{
+				case 1:
+				::MessageBox(hwnd,"Plus","Rrsult",MB_OK);
+				break;
+
+				case 2:
+				int gwtstat = 0;
+				char *t = &textSaved[0];
+				gwtstat = GetWindowText(TextBox, t, 20);
+				
+				::MessageBox(hwnd,textSaved, textSaved, MB_OK);
+
+				break;
+
+			}
+
 		/* Upon destruction, tell the main thread to stop */
 		case WM_DESTROY: {
 			PostQuitMessage(0);
@@ -41,11 +91,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		return 0;
 	}
 
-	hwnd = CreateWindowEx(WS_EX_CLIENTEDGE,"WindowClass","Caption",WS_VISIBLE|WS_OVERLAPPEDWINDOW,
+	hwnd = CreateWindowEx(WS_EX_CLIENTEDGE,"WindowClass","My Calculator",WS_VISIBLE|WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, /* x */
 		CW_USEDEFAULT, /* y */
-		640, /* width */
-		480, /* height */
+		250, /* width */
+		200, /* height */
 		NULL,NULL,hInstance,NULL);
 
 	if(hwnd == NULL) {
